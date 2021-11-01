@@ -7,4 +7,18 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/GridFragment"
+        android:name="com.example.project2.Grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/GameBarFragment"
+        android:name="com.example.project2.GameBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:outlineProvider="background" />
 </LinearLayout>

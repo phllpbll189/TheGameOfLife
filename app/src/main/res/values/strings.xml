@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Project2</string>
+    <string name="startButton">Start</string>
+    <string name="stopButton">Stop</string>
+    <string name="colors">Change Colors</string>
+    <string name="saveLayout">Save layout</string>
+    <string name="load">Load Layout</string>
 </resources>
