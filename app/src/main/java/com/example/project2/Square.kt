@@ -6,11 +6,14 @@ class Square : ViewModel() {
     private var color = mutableListOf<Int>(0x00, 0x00, 0x00)
     private var lifeTracker: MutableList<Boolean> = mutableListOf<Boolean>()
 
-
-
-    //make it private and use getter and setters incase i will need to add functionality later.
-    fun addSquare(){
-        lifeTracker.add(false)
+    fun playOne(){
+        //TODO Implement all death/life cases
+        //somehow need to call notifyDataSetChanged
+    }
+    fun generateSquares(){
+        while(lifeTracker.size != 400){
+            lifeTracker.add(false)
+        }
     }
     fun flipStatus(location: Int){
         lifeTracker[location]=!lifeTracker[location]
@@ -23,5 +26,5 @@ class Square : ViewModel() {
     }
     fun setColor(color: MutableList<Int>){
         this.color = color
-    }
+    }//TODO move all color objects to the color xml file
 }

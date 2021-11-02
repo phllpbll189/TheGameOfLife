@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 var COLOR = mutableListOf<Int>(0xff, 0xa5, 0x08)
-class Grid : Fragment(R.layout.grid) {
+class Grid : Fragment(R.layout.grid){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -22,35 +22,31 @@ class Grid : Fragment(R.layout.grid) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.grid, container, false)
         val provider: ViewModelProvider = ViewModelProvider(this)
         val viewModel = provider.get(Square::class.java)
+        viewModel.generateSquares()
 
         var recycler = view.findViewById(R.id.GridRecycler) as RecyclerView
-
-        if (container != null) {
-            recycler.layoutManager = GridLayoutManager(container.context, 20)
-        }
+        recycler.layoutManager = GridLayoutManager(container?.context, 20)
         recycler.adapter = gridAdapter(viewModel)
-
         return view
     }
 
     private inner class CellViewHolder(cellView: View, var viewModel: Square) : RecyclerView.ViewHolder(cellView){
         var position: Int? = null
+        private var button: View = cellView.findViewById<ConstraintLayout>(R.id.buttonHolder)
 
         init {
-            var button = cellView.findViewById<ConstraintLayout>(R.id.buttonHolder)
-            button.setOnClickListener {
+            this.button.setOnClickListener {
                 viewModel.flipStatus(position!!)
-                color(button)
-            } //TODO implement onclick function
-            //change from live to dead or vise versa
-            //make sure that it is blinking while alive
+                color()
+            }
         }
 
-        private fun color(button: ConstraintLayout) {
-            if(viewModel.getStatus(position!!) == true){
+        private fun color() {
+            if(viewModel.getStatus(position!!)){
                 var ourColor = viewModel.getColor()
                 button.setBackgroundColor(Color.rgb(ourColor[0], ourColor[1], ourColor[2]))
             }else{
@@ -59,18 +55,17 @@ class Grid : Fragment(R.layout.grid) {
         }
 
         fun setup(position: Int){
-            viewModel.addSquare()
             this.position = position
+            color()
         }
     }
 
     private inner class gridAdapter(var viewModel: Square): RecyclerView.Adapter<CellViewHolder>(){
-        final val NUM_CELLS: Int = 400
+        val NUM_CELLS: Int = 400
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CellViewHolder {
             val inflater: LayoutInflater = LayoutInflater.from(parent.context)
             val cellView: View = inflater.inflate(R.layout.square, parent, false)
-
             return CellViewHolder(cellView, viewModel)
         }
 
@@ -81,7 +76,6 @@ class Grid : Fragment(R.layout.grid) {
         override fun getItemCount(): Int {
             return NUM_CELLS
         }
-
     }
 
 }
