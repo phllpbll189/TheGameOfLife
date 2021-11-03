@@ -1,11 +1,14 @@
 package com.example.project2
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.textclassifier.ConversationActions
 import android.widget.GridLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -14,7 +17,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 var COLOR = mutableListOf<Int>(0xff, 0xa5, 0x08)
 class Grid : Fragment(R.layout.grid){
-    lateinit var recycler: RecyclerView
+    private lateinit var recycler: RecyclerView
+    lateinit var viewModel: Square
+    var gamePlaying = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,29 +32,35 @@ class Grid : Fragment(R.layout.grid){
         val viewModel = provider.get(Square::class.java)
         viewModel.generateSquares()
 
-        val recycler = view.findViewById(R.id.GridRecycler) as RecyclerView
+        this.recycler = view.findViewById(R.id.GridRecycler) as RecyclerView
         recycler.layoutManager = GridLayoutManager(container?.context, 20)
         recycler.adapter = gridAdapter(viewModel)
 
 
         return view
     }
-    var callB = Handler.Callback {
+
+
+
+    var handler = Handler { message ->
 
         //while loop here and timer here
-        recycler.adapter?.notifyDataSetChanged()
+        this.gamePlaying = true
+        val recycler = recycler
+
+        while (gamePlaying) {
+            Thread.sleep(1000)
+        }
         true
     }
 
-    var handler = Handler(callB)
 
     fun startHandler() {
-        TODO("Not yet implemented")
-        handler.sendEmptyMessage()
+        handler.sendEmptyMessage(1)
     }
 
     fun stopHandler() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 
     private inner class CellViewHolder(cellView: View, var viewModel: Square) : RecyclerView.ViewHolder(cellView){

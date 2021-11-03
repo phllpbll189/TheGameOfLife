@@ -36,7 +36,6 @@ class GameBar : Fragment() {
                 controlListener.stopHandler()
             }
             //TODO implement
-            //start handler for the timer
             //from handler call viewmodel.playOne()
             //switch text to "stop"
             //make boolean for handler to see when it should stop
