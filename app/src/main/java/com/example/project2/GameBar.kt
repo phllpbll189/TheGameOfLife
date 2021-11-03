@@ -1,20 +1,18 @@
 package com.example.project2
 
-import android.net.wifi.p2p.WifiP2pManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
 
 class GameBar : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-    lateinit var controlListener: MyInterface
+    private lateinit var controlListener: GameControls
+    private var startStop = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,13 +26,18 @@ class GameBar : Fragment() {
         val load = view.findViewById(R.id.load) as? Button
         val save = view.findViewById(R.id.save) as? Button
 
-        controlListener = activity as MyInterface
+        controlListener = activity as GameControls
 
         start?.setOnClickListener {
+            if(startStop % 2 == 0){
+                controlListener.startHandler()
+            }
+            else{
+                controlListener.stopHandler()
+            }
             //TODO implement
             //start handler for the timer
             //from handler call viewmodel.playOne()
-            controlListener.doSomething()
             //switch text to "stop"
             //make boolean for handler to see when it should stop
         }
@@ -56,13 +59,13 @@ class GameBar : Fragment() {
         return view
     }
 
-    interface MyInterface {
-        fun doSomething()
-    }
-
     //Questions
-    //how do i call notify data changed from an entirely different fragment
-    //how do I append more items to the end of a json that is stored on disk. IDEA: Overwrite
-    //what is the datepicker thing called so i can research it later
+}
 
+//what is the datepicker thing called so i can research it later
+//how do I append more items to the end of a json that is stored on disk. IDEA: Overwrite
+//how do i call notify data changed from an entirely different fragment
+interface GameControls {
+    fun startHandler()
+    fun stopHandler()
 }

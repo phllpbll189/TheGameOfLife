@@ -2,6 +2,7 @@ package com.example.project2
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 var COLOR = mutableListOf<Int>(0xff, 0xa5, 0x08)
 class Grid : Fragment(R.layout.grid){
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    lateinit var recycler: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,10 +27,29 @@ class Grid : Fragment(R.layout.grid){
         val viewModel = provider.get(Square::class.java)
         viewModel.generateSquares()
 
-        var recycler = view.findViewById(R.id.GridRecycler) as RecyclerView
+        val recycler = view.findViewById(R.id.GridRecycler) as RecyclerView
         recycler.layoutManager = GridLayoutManager(container?.context, 20)
         recycler.adapter = gridAdapter(viewModel)
+
+
         return view
+    }
+    var callB = Handler.Callback {
+
+        //while loop here and timer here
+        recycler.adapter?.notifyDataSetChanged()
+        true
+    }
+
+    var handler = Handler(callB)
+
+    fun startHandler() {
+        TODO("Not yet implemented")
+        handler.sendEmptyMessage()
+    }
+
+    fun stopHandler() {
+        TODO("Not yet implemented")
     }
 
     private inner class CellViewHolder(cellView: View, var viewModel: Square) : RecyclerView.ViewHolder(cellView){
@@ -47,7 +65,7 @@ class Grid : Fragment(R.layout.grid){
 
         private fun color() {
             if(viewModel.getStatus(position!!)){
-                var ourColor = viewModel.getColor()
+                val ourColor = viewModel.getColor()
                 button.setBackgroundColor(Color.rgb(ourColor[0], ourColor[1], ourColor[2]))
             }else{
                 button.setBackgroundColor(Color.rgb(COLOR[0], COLOR[1], COLOR[2]))
@@ -77,5 +95,4 @@ class Grid : Fragment(R.layout.grid){
             return NUM_CELLS
         }
     }
-
 }
