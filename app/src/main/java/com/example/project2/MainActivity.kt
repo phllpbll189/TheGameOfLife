@@ -14,10 +14,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), GameControls {
                 .beginTransaction()
                 .add(R.id.GridFragment, gridfrag)
                 .add(R.id.GameBarFragment, gameBar)
+                .commit()
         }
     }
 
     override fun startHandler() {
+
         gridfrag.startHandler()
     }
 
