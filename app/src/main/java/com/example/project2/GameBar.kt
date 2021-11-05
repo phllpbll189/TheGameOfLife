@@ -20,7 +20,6 @@ class GameBar : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.bottombar, container, false)
-
         val start = view.findViewById(R.id.mainbutton) as? Button
         val changeColor = view.findViewById(R.id.changeColor) as? Button
         val load = view.findViewById(R.id.load) as? Button

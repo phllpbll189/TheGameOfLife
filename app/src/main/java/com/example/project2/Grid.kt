@@ -15,48 +15,50 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.widget.Toast
+import android.os.Looper
+
 var COLOR = mutableListOf<Int>(0xff, 0xa5, 0x08)
-class Grid : Fragment(R.layout.grid){
-    private lateinit var recycler: RecyclerView
-    lateinit var viewModel: Square
+class Grid : Fragment(R.layout.grid) {
+    private var handler = Handler()
+
+    @Volatile
+    var recycler: RecyclerView? = null
+
+    @Volatile
+    var viewModel: Square? = null
+
+    @Volatile
     var gamePlaying = false
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         val view = inflater.inflate(R.layout.grid, container, false)
+
+        //setup view model
         val provider: ViewModelProvider = ViewModelProvider(this)
-        val viewModel = provider.get(Square::class.java)
-        viewModel.generateSquares()
+        viewModel = provider.get(Square::class.java)
+        viewModel?.generateSquares()
 
-        this.recycler = view.findViewById(R.id.GridRecycler) as RecyclerView
-        recycler.layoutManager = GridLayoutManager(container?.context, 20)
-        recycler.adapter = gridAdapter(viewModel)
-
+        //setup recycler
+        recycler = view?.findViewById(R.id.GridRecycler) as RecyclerView
+        recycler?.layoutManager = GridLayoutManager(view.context, 20)
+        recycler?.adapter = gridAdapter(viewModel!!)
 
         return view
     }
 
-
-
-    var handler = Handler { message ->
-
-        //while loop here and timer here
-        this.gamePlaying = true
-        val recycler = recycler
-
-        while (gamePlaying) {
-            Thread.sleep(1000)
-        }
-        true
-    }
-
-
     fun startHandler() {
-        handler.sendEmptyMessage(1)
+        //TODO LAST
+        handler.post(runnable)
     }
 
     fun stopHandler() {
@@ -106,4 +108,17 @@ class Grid : Fragment(R.layout.grid){
             return NUM_CELLS
         }
     }
+
+    private val runnable: Runnable = object : Runnable {
+        override fun run() {
+            // Insert custom code here
+            var model = viewModel
+            var cycle = recycler
+            // Repeat every 2 seconds
+            var yeet = "yeet"
+            handler.postDelayed(this, 2000)
+        }
+    }
 }
+
+

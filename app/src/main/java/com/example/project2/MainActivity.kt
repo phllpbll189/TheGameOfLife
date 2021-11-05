@@ -6,9 +6,8 @@ import android.os.Handler
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), GameControls {
     private val gridfrag = Grid()
-
+    private val gameBar = GameBar()
     override fun onCreate(savedInstanceState: Bundle?) {
-        val gameBar = GameBar()
         super.onCreate(savedInstanceState)
         if(savedInstanceState == null){
             supportFragmentManager
