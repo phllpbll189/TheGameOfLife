@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 
 class Square : ViewModel() {
     private var color = mutableListOf<Int>(0x00, 0x00, 0x00)
-    private var lifeTracker: MutableList<Boolean> = mutableListOf<Boolean>()
+    var lifeTracker: MutableList<Boolean> = mutableListOf<Boolean>()
 
     fun playOne(){
         //TODO Implement all death/life cases

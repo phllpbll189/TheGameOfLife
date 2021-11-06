@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), GameControls {
     }
 
     override fun startHandler() {
-
         gridfrag.startHandler()
     }
 

@@ -112,22 +112,53 @@ class Grid : Fragment(R.layout.grid) {
 
     private val runnable: Runnable = object : Runnable {
         override fun run() {
+            squareChecker()
             recycler?.adapter?.notifyDataSetChanged()
-
-            handler.postDelayed(this, 2000)
+            handler.postDelayed(this, 500)
         }
     }
-    // +1, -1,
-    // +19, +20, +21,
-    // -19,-20, -21
-    //left is +19 then %20
-    //I Could also reformat to [][]
+
     private fun squareChecker(){
-        var squares = viewModel?.getSquares()
-        for(square in squares!!){
+        var squares = viewModel!!.getSquares()
+        var toFlip = mutableListOf<Boolean>()
+        for(i in 0..399){
+
+            var neighbors = 0
+            //tracks rows, columns
+            var row = i/ 20 // if 2 then 2nd row
+            var col = i % 20
+            var right_col = (i + 1) % 20
+            var left_col = (i + 19) % 20
+            var tr = row - 1
+            var br = row + 1
+
+            //make sure rows are properly set up
+            if(row == 0){
+                tr = 19
+            }
+            if(row >= 19){
+                br = 0
+            }
+
+            neighbors += squares[tr * 20 + col].toInt()
+            neighbors += squares[tr * 20 + right_col].toInt()
+            neighbors += squares[tr * 20 + left_col].toInt()
+
+            neighbors += squares[br * 20 + col].toInt()
+            neighbors += squares[br * 20 + right_col].toInt()
+            neighbors += squares[br * 20 + left_col].toInt()
+
+            neighbors += squares[row * 20 + left_col].toInt()
+            neighbors += squares[row * 20 + right_col].toInt()
 
 
+            if(squares[i]){
+                toFlip.add(neighbors == 3 || neighbors == 2)
+            }else{
+                toFlip.add(neighbors == 3)
+            }
         }
+        viewModel!!.lifeTracker = toFlip
     }
 
     fun Boolean.toInt() = if (this) 1 else 0
