@@ -30,9 +30,11 @@ class GameBar : Fragment() {
         start?.setOnClickListener {
             if(startStop % 2 == 0){
                 controlListener.startHandler()
+                startStop += 1
             }
             else{
                 controlListener.stopHandler()
+                startStop += 1
             }
             //TODO implement
             //from handler call viewmodel.playOne()

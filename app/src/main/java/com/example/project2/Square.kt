@@ -27,4 +27,7 @@ class Square : ViewModel() {
     fun setColor(color: MutableList<Int>){
         this.color = color
     }//TODO move all color objects to the color xml file
+    fun getSquares(): MutableList<Boolean>{
+        return lifeTracker
+    }
 }

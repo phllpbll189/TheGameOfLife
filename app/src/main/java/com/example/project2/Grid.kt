@@ -63,6 +63,7 @@ class Grid : Fragment(R.layout.grid) {
 
     fun stopHandler() {
         //TODO("Not yet implemented")
+        handler.removeCallbacks(runnable)
     }
 
     private inner class CellViewHolder(cellView: View, var viewModel: Square) : RecyclerView.ViewHolder(cellView){
@@ -111,14 +112,25 @@ class Grid : Fragment(R.layout.grid) {
 
     private val runnable: Runnable = object : Runnable {
         override fun run() {
-            // Insert custom code here
-            var model = viewModel
-            var cycle = recycler
-            // Repeat every 2 seconds
-            var yeet = "yeet"
+            recycler?.adapter?.notifyDataSetChanged()
+
             handler.postDelayed(this, 2000)
         }
     }
+    // +1, -1,
+    // +19, +20, +21,
+    // -19,-20, -21
+    //left is +19 then %20
+    //I Could also reformat to [][]
+    private fun squareChecker(){
+        var squares = viewModel?.getSquares()
+        for(square in squares!!){
+
+
+        }
+    }
+
+    fun Boolean.toInt() = if (this) 1 else 0
 }
 
 
