@@ -1,33 +1,21 @@
 package com.example.project2
 
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModel
+import kotlin.coroutines.coroutineContext
 
 class Square : ViewModel() {
-    private var color = mutableListOf<Int>(0x00, 0x00, 0x00)
-    var lifeTracker: MutableList<Boolean> = mutableListOf<Boolean>()
+    private var allSquares: MutableList<Boolean> = mutableListOf<Boolean>()
 
-    fun playOne(){
-        //TODO Implement all death/life cases
-        //somehow need to call notifyDataSetChanged
-    }
     fun generateSquares(){
-        while(lifeTracker.size != 400){
-            lifeTracker.add(false)
+        while(allSquares.size != 400){
+            allSquares.add(false)
         }
     }
-    fun flipStatus(location: Int){
-        lifeTracker[location]=!lifeTracker[location]
-    }
-    fun getStatus(location: Int): Boolean{
-        return lifeTracker[location]
-    }
-    fun getColor() : MutableList<Int>{
-        return color
-    }
-    fun setColor(color: MutableList<Int>){
-        this.color = color
-    }//TODO move all color objects to the color xml file
-    fun getSquares(): MutableList<Boolean>{
-        return lifeTracker
-    }
+
+    fun flipStatus(location: Int){ allSquares[location]=!allSquares[location] }
+    fun getStatus(location: Int): Boolean{ return allSquares[location] }
+
+    fun getSquares(): MutableList<Boolean>{ return allSquares }
+    fun setSquares(newSquares : MutableList<Boolean>){ allSquares = newSquares}
 }

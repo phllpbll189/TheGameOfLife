@@ -5,4 +5,6 @@
     <string name="colors">Change Colors</string>
     <string name="saveLayout">Save layout</string>
     <string name="load">Load Layout</string>
+    <string name="cancel">Cancel</string>
+    <string name="done">Done</string>
 </resources>

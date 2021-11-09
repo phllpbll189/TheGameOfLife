@@ -8,9 +8,6 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 
 class GameBar : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     private lateinit var controlListener: GameControls
     private var startStop = 0
 
@@ -31,21 +28,16 @@ class GameBar : Fragment() {
             if(startStop % 2 == 0){
                 controlListener.startHandler()
                 startStop += 1
+                start.text = getString(R.string.stopButton)
             }
             else{
                 controlListener.stopHandler()
                 startStop += 1
+                start.text = getString(R.string.startButton)
             }
-            //TODO implement
-            //from handler call viewmodel.playOne()
-            //switch text to "stop"
-            //make boolean for handler to see when it should stop
         }
         changeColor?.setOnClickListener {
-            //TODO implement
-            //should start another datepicker thing
-            //should show 2 different columns
-            //each column should have 3 inputs ranging from 0 - 255
+            controlListener.changeColor()
         }
         load?.setOnClickListener {
             //TODO implement
@@ -68,4 +60,5 @@ class GameBar : Fragment() {
 interface GameControls {
     fun startHandler()
     fun stopHandler()
+    fun changeColor()
 }

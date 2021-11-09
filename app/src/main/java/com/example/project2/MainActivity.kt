@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 
-class MainActivity : AppCompatActivity(R.layout.activity_main), GameControls {
+class MainActivity : AppCompatActivity(R.layout.activity_main), GameControls, Callbacks{
     private val gridfrag = Grid()
     private val gameBar = GameBar()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,5 +24,18 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), GameControls {
 
     override fun stopHandler() {
         gridfrag.stopHandler()
+    }
+
+    override fun changeColor(){
+        val fragment = ColorPickerFragment.newInstance(gridfrag.getAliveColor(), gridfrag.getDeadColor())
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.GameBarFragment, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    override fun onColorSelected(alive: Int, dead: Int){
+        gridfrag.setAliveColor(alive)
+        gridfrag.setDeadColor(dead)
     }
 }
