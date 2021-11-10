@@ -1,10 +1,11 @@
 package com.example.project2
-
 import android.os.Bundle
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -34,7 +35,6 @@ class Grid : Fragment(R.layout.grid) {
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.grid, container, false)
-
         //setup view model
         val provider: ViewModelProvider = ViewModelProvider(this)
         viewModel = provider.get(Square::class.java)
@@ -63,12 +63,12 @@ class Grid : Fragment(R.layout.grid) {
             val col = i % COLUMN_COUNT
             val right_col = (i + 1) % COLUMN_COUNT
             val left_col = (i + 19) % COLUMN_COUNT
-            var top_row = row - 1
-            var bot_row = row + 1
+            var top_row = (row + 19) % 20
+            var bot_row = (row + 1) % 20
 
             //make sure rows are properly set up
-            if(row == 0){ top_row = 19}
-            if(row >= 19){ bot_row = 0 }
+            //if(row == 0){ top_row = 19} object animagtor
+            //if(row >= 19){ bot_row = 0 }
 
             // Test neighbors to see if they're alive
             neighbors += squares[top_row * COLUMN_COUNT + col].toInt()
@@ -94,18 +94,23 @@ class Grid : Fragment(R.layout.grid) {
     private inner class CellViewHolder(cellView: View, var viewModel: Square) : RecyclerView.ViewHolder(cellView){
         var position: Int? = null
         private var button: View = cellView.findViewById<ConstraintLayout>(R.id.square)
+        private var animator = AlphaAnimation(1.0f, 0.0f)
 
         init {
+            animator.duration = 500
+            animator.repeatCount = Animation.INFINITE
+            animator.repeatMode = Animation.REVERSE
             this.button.setOnClickListener {
                 viewModel.flipStatus(position!!)
                 color()
+
             }
         }
 
         private fun color() {
             if(viewModel.getStatus(position!!)){
                 button.setBackgroundColor(alive!!)
-
+                this.button.startAnimation(animator)
             }else{
                 button.setBackgroundColor(dead!!)
             }
@@ -139,7 +144,7 @@ class Grid : Fragment(R.layout.grid) {
         override fun run() {
             squareChecker()
             recycler?.adapter?.notifyDataSetChanged()
-            handler.postDelayed(this, 500)
+            handler.postDelayed(this, 1500)
         }
     }
 
