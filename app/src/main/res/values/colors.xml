@@ -8,5 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="alive">#1fbf1d</color>
-    <color name="dead">#282928</color>
+    <color name="dead">#808080</color>
 </resources>

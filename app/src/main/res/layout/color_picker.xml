@@ -53,7 +53,10 @@
         android:ems="10"
         android:inputType="text"
         android:minHeight="48dp"
-        android:shadowColor="#000000"
+        android:shadowColor="#C3C1C1"
+        android:textColor="#FCFCFC"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorHint="#FCFCFC"
         app:layout_constraintBottom_toTopOf="@+id/alive"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -67,6 +70,8 @@
         android:ems="10"
         android:inputType="text"
         android:minHeight="48dp"
+        android:textColor="#FCFCFC"
+        android:textColorHint="#FCFCFC"
         app:layout_constraintBottom_toTopOf="@+id/cancel"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="SpeakableTextPresentCheck" />

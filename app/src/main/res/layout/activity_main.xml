@@ -11,12 +11,13 @@
         android:id="@+id/GridFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="#303030" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/GameBarFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_height="wrap_content"
+        android:background="#303030"
         android:outlineProvider="background" />
 </LinearLayout>

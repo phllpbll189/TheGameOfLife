@@ -7,4 +7,7 @@
     <string name="load">Load Layout</string>
     <string name="cancel">Cancel</string>
     <string name="done">Done</string>
+    <string name="GridN">Grid Name</string>
+    <string name="GridD">Grid Date</string>
+
 </resources>

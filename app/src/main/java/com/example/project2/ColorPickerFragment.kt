@@ -22,22 +22,26 @@ private const val COLOR_ALIVE = "AliveColor"
 private const val COLOR_DEAD = "DeadColor"
 
 class ColorPickerFragment : Fragment(){
+    //Color for both alive and dead states
     private var alive: Int? = null
     private var dead: Int? = null
+    //preview sqaures to show color before selection
     private lateinit var deadPreview: View
     private lateinit var alivePreview: View
+    //edit Hex to see different colors
     private lateinit var deadText: EditText
     private lateinit var aliveText: EditText
+    //cancel or approve button and a callback handle for Main Activity
     private lateinit var cancel: Button
     private lateinit var done: Button
-    private lateinit var controlListener: Callbacks
+    private lateinit var controlListener: ColorCallback
 
 
     override fun onCreate(saveInstanceState: Bundle?){
         super.onCreate(saveInstanceState)
+        //set as current colors
         alive = arguments?.getSerializable(COLOR_ALIVE) as Int
         dead = arguments?.getSerializable(COLOR_DEAD) as Int
-
     }
 
     override fun onCreateView(
@@ -58,8 +62,8 @@ class ColorPickerFragment : Fragment(){
         deadPreview.setBackgroundColor(dead!!)
         alivePreview.setBackgroundColor(alive!!)
 
-        //get previews activity
-        controlListener = activity as Callbacks
+        //get activity callback handle for Main activity
+        controlListener = activity as ColorCallback
 
         //gives the current hex as a hint
         aliveText.hint = ResourcesCompat.getColor(resources, R.color.alive, null)
@@ -78,7 +82,7 @@ class ColorPickerFragment : Fragment(){
 
     override fun onStart() {
         super.onStart()
-
+        //alive and dead watcher just wait unil there is a valid color input and paints the previews
         val aliveWatcher = object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -103,16 +107,20 @@ class ColorPickerFragment : Fragment(){
                 }
 
             }
-            override fun afterTextChanged(s: Editable?) {} //TODO FIX THIS
+            override fun afterTextChanged(s: Editable?) {}
         }
 
+        //adds created watchers for for the listeners
         aliveText.addTextChangedListener(aliveWatcher)
         deadText.addTextChangedListener(deadWatcher)
 
+        //Sets the color and goes back to game screen
         done.setOnClickListener {
             controlListener.onColorSelected(alive!!, dead!!)
+            activity?.supportFragmentManager?.popBackStack()
         }
 
+        //goes back to game screen
         cancel.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         }
@@ -121,6 +129,7 @@ class ColorPickerFragment : Fragment(){
     }
 
     companion object {
+        //object to call itself because it needs the colors of the current game
         fun newInstance(alive: Int, dead: Int): ColorPickerFragment{
             val args = Bundle().apply {
                 putSerializable(COLOR_ALIVE, alive)
@@ -131,6 +140,6 @@ class ColorPickerFragment : Fragment(){
         }
     }
 }
-interface Callbacks {
+interface ColorCallback {
     fun onColorSelected(alive: Int, dead: Int)
 }
